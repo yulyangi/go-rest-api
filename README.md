@@ -12,7 +12,10 @@
 * `DELETE /events/<id>/register`   Cancel registration for event `auth_required`
 
 ## Build
-`go build .`
+```
+go get ./...
+go build .
+```
 
 ## Run
 `./go-res-api`
@@ -58,14 +61,9 @@ content-type: application/json
 #### create event
 ```
 curl --header "Content-Type: application/json" \
-     --header "Authorization: Bearer <token>" \
+     --header "Authorization: <token>" \
      --request POST \
-     --data \
-     '{ \
-       "title": "Wacken Open Air", \
-       "description": "heavy metal music festival", \
-       "location": "Wacken, Germany" \
-     }' \
+     --data '{"title": "Wacken Open Air", "description": "heavy metal music festival", "location": "Wacken, Germany", "date_time": "2025-07-30T00:00:00.000Z"}' \
      http://localhost:8080/events
 ```
 
@@ -77,21 +75,17 @@ Authorization: <token>
  {
    "title": "Wacken Open Air",
    "description": "heavy metal music festival",
-   "location": "Wacken, Germany"
+   "location": "Wacken, Germany",
+   "date_time": "2025-07-30T00:00:00.000Z"
  }
 ```
 
 #### update event
 ```
 curl --header "Content-Type: application/json" \
-     --header "Authorization: Bearer <token>" \
+     --header "Authorization: <token>" \
      --request PUT \
-     --data \
-     '{ \
-       "title": "Bloodstock Open Air", \
-       "description": "heavy metal music festival", \
-       "location": "Walton-on-Trent, Derbyshire, England" \
-     }' \
+     --data '{"title": "Bloodstock Open Air", "description": "heavy metal music festival", "location": "Walton-on-Trent, Derbyshire, England", "date_time": "2025-08-07T00:00:00.000Z"}' \
      http://localhost:8080/events/<id>
 ```
 
@@ -104,6 +98,7 @@ Authorization: <token>
     "title": "Bloodstock Open Air",
     "description": "heavy metal music festival",
     "location": "Walton-on-Trent, Derbyshire, England",
+    "date_time": "2025-08-07T00:00:00.000Z"
 }
 ```
 
