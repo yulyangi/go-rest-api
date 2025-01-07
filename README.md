@@ -50,7 +50,7 @@ POST   http://localhost:8080/login HTTP/1.1
 content-type: application/json
 
 {
-    "email":"dr.livesey@mail.com",
+    "email": "johndow@@mail.com",
     "password":"mypassword"
 }
 ```
