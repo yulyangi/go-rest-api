@@ -1,3 +1,6 @@
+# Simple GO application without UI
+
+## Endpoints
 * `GET /events`                    Get list of events
 * `GET /events/<id>`               Get event by id
 * `POST /events`                   Create event `auth_required`
@@ -8,80 +11,151 @@
 * `POST /events/<id>/register`     Register user for event `auth_required`
 * `DELETE /events/<id>/register`   Cancel registration for event `auth_required`
 
+## Build
+`go build .`
 
-## create user
+## Run
+`./go-res-api`
+
+## Test
+### You can use CURl or REST Client Extension for VSCode
+#### create a user
+```
+curl --header "Content-Type: application/json" \
+     --request POST \
+     --data '{"email":"johndow@mail.com","password":"mypassword"}' \
+     http://localhost:8080/signup
+```
+
 ```
 POST   http://localhost:8080/signup HTTP/1.1
 content-type: application/json
 
 {
-    "email": "user_1@mail.com",
-    "password": "password"
+    "email": "johndow@@mail.com",
+    "password": "mypassword"
 }
 ```
 
-## log in as user
+#### log in as user (token will be returned)
+```
+curl --header "Content-Type: application/json" \
+     --request POST \
+     --data '{"email":"johndow@mail.com","password":"mypassword"}' \
+     http://localhost:8080/login
+```
+
 ```
 POST   http://localhost:8080/login HTTP/1.1
 content-type: application/json
 
 {
-    "email": "user_1@mail.com",
-    "password": "password"
+    "email":"dr.livesey@mail.com",
+    "password":"mypassword"
 }
 ```
 
-## create event
+#### create event
+```
+curl --header "Content-Type: application/json" \
+     --header "Authorization: Bearer <token>" \
+     --request POST \
+     --data \
+     '{ \
+       "title": "Wacken Open Air", \
+       "description": "heavy metal music festival", \
+       "location": "Wacken, Germany" \
+     }' \
+     http://localhost:8080/events
+```
+
 ```
 POST   http://localhost:8080/events HTTP/1.1
 content-type: application/json
 Authorization: <token>
 
-{
-    "title": "Wacken Open Air",
-    "description": "metal",
-    "location": "Germany",
-    "date_time": "2025-07-31T15:01:00.000Z"
-}
+ {
+   "title": "Wacken Open Air",
+   "description": "heavy metal music festival",
+   "location": "Wacken, Germany"
+ }
 ```
 
-## update event
+#### update event
+```
+curl --header "Content-Type: application/json" \
+     --header "Authorization: Bearer <token>" \
+     --request PUT \
+     --data \
+     '{ \
+       "title": "Bloodstock Open Air", \
+       "description": "heavy metal music festival", \
+       "location": "Walton-on-Trent, Derbyshire, England" \
+     }' \
+     http://localhost:8080/events/<id>
+```
+
 ```
 PUT   http://localhost:8080/events/<id> HTTP/1.1
 content-type: application/json
 Authorization: <token>
 
 {
-    "title": "Viva Braslav",
-    "description": "pop",
-    "location": "Belarus",
-    "date_time": "2025-07-31T15:01:00.000Z"
+    "title": "Bloodstock Open Air",
+    "description": "heavy metal music festival",
+    "location": "Walton-on-Trent, Derbyshire, England",
 }
 ```
 
-## get event
+#### get event
+```
+curl http://localhost:8080/events/<id>
+```
+
 ```
 GET   http://localhost:8080/events/<id> HTTP/1.1
 ```
 
-## get events
+#### get events
+```
+curl http://localhost:8080/events
+```
+
 ```
 GET   http://localhost:8080/events HTTP/1.1
 ```
 
-## delete event
+#### delete event
+```
+curl --header "Authorization: Bearer <token>" \
+     --request DELETE \
+     http://localhost:8080/events/<id>
+```
+
 ```
 DELETE   http://localhost:8080/events/<id> HTTP/1.1
 Authorization: <token>
 ```
 
-## create registration
+#### create registration
+```
+curl --header "Authorization: Bearer <token>" \
+     --request POST \
+     http://localhost:8080/events/<id>/registration
+```
+
 ```
 POST   http://localhost:8080/events/<id>/registration HTTP/1.1
 Authorization: <token>
 ```
 
-## delete registration
+#### delete registration
+```
+curl --header "Authorization: Bearer <token>" \
+     --request DELETE \
+     http://localhost:8080/events/<id>/registration
+```
+
 ```
 DELETE   http://localhost:8080/events/<id>/registration HTTP/1.1
 Authorization: <token>
